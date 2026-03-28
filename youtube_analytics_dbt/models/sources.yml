@@ -5,5 +5,5 @@ sources:
     database: YOUTUBE_TRENDING_DB
     schema: RAW
     tables:
-      - name: YOUTUBE_TRENDING
+      - name: youtube_trending
         description: "Live YouTube trending videos from API"
