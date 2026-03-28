@@ -25,7 +25,7 @@ jobs:
       - name: Set up dbt profile
         run: |
           mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml << EOF
+          cat > ~/.dbt/profiles.yml << 'EOF'
           youtube_analytics_dbt:
             target: ci
             outputs:
@@ -48,8 +48,8 @@ jobs:
           dbt test
       
       - name: Upload test failures
-	if: always()
-	uses: actions/upload-artifact@v4
-	with:
-	  name: dbt-test-failures
-	  path: youtube_analytics_dbt/target/
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-test-failures
+          path: youtube_analytics_dbt/target/
