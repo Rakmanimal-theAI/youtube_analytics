@@ -15,24 +15,26 @@ models:
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: 0
-              # This is a range check via accepted_values
+              arguments:
+		min_value: 0# This is a range check via accepted_values
       
       - name: engagement_rate
         description: "Engagement rate = (likes + comments) / views * 100"
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 100
+              arguments:
+		min_value: 0
+              	max_value: 100
       
       - name: days_to_trend
         description: "Days between publish and trending"
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 365
+              arguments:
+		min_value: 0
+		max_value: 365
       
       - name: title
         description: "Video title"
