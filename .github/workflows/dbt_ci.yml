@@ -17,16 +17,41 @@ jobs:
         with:
           python-version: '3.11'
       
+      - name: Install Snowflake connector
+        run: pip install snowflake-connector-python
+      
+      - name: Test Snowflake connection
+        env:
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          python -c "
+          import snowflake.connector
+          try:
+              conn = snowflake.connector.connect(
+                  account='DB37863.australia-east.azure',
+                  user='$SNOWFLAKE_USER',
+                  password='$SNOWFLAKE_PASSWORD',
+                  warehouse='COMPUTE_WH',
+                  database='YOUTUBE_TRENDING_DB'
+              )
+              cur = conn.cursor()
+              cur.execute('SELECT CURRENT_VERSION()')
+              print('✅ Connected! Version:', cur.fetchone()[0])
+              conn.close()
+          except Exception as e:
+              print(f'❌ Connection failed: {e}')
+              exit(1)
+          "
+      
       - name: Install dbt
         run: pip install dbt-snowflake
       
       - name: Run dbt
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          # Create .dbt directory if it doesn't exist
           mkdir -p ~/.dbt
           
           cat > ~/.dbt/profiles.yml << 'EOF'
@@ -35,7 +60,7 @@ jobs:
             outputs:
               ci:
                 type: snowflake
-                account: $SNOWFLAKE_ACCOUNT
+                account: DB37863.australia-east.azure
                 user: $SNOWFLAKE_USER
                 password: $SNOWFLAKE_PASSWORD
                 role: ACCOUNTADMIN
@@ -49,4 +74,3 @@ jobs:
           dbt deps
           dbt run
           dbt test
-
