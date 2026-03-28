@@ -14,8 +14,8 @@ models:
         description: "View count of the video"
         tests:
           - not_null
-          - accepted_values:
-              values: [0, 1, 2, 3, 4, 5]  # Must be >=0
+          - dbt_utils.accepted_range:
+              min_value: 0
               # This is a range check via accepted_values
       
       - name: engagement_rate

@@ -1,0 +1,14 @@
+version: 2
+
+exposures:
+  - name: youtube_analytics_dashboard
+    type: dashboard
+    url: "https://your-streamlit-app.streamlit.app"
+    description: "Interactive dashboard for YouTube trending analytics"
+    
+    depends_on:
+      - ref('video_performance')
+    
+    owner:
+      name: "Nicolas Mir"
+      email: "nicolasmir20@gmail.com"
