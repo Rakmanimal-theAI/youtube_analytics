@@ -54,7 +54,7 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           
-          cat > ~/.dbt/profiles.yml << 'EOF'
+          cat > ~/.dbt/profiles.yml << EOF
           youtube_analytics_dbt:
             target: ci
             outputs:
