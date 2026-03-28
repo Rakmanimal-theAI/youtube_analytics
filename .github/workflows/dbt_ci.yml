@@ -46,3 +46,10 @@ jobs:
           cd youtube_analytics_dbt
           dbt deps
           dbt test
+      
+      - name: Upload test failures
+	if: always()
+	uses: actions/upload-artifact@v4
+	with:
+	  name: dbt-test-failures
+	  path: youtube_analytics_dbt/target/

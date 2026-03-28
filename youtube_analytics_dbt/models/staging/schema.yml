@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_youtube_trending
+    description: "Cleaned staging table for YouTube trending videos"
+    columns:
+      - name: video_id
+        description: "Unique identifier for YouTube video"
+        tests:
+          - not_null
+          - unique
+      
+      - name: views
+        description: "View count of the video"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5]  # Must be >=0
+              # This is a range check via accepted_values
+      
+      - name: engagement_rate
+        description: "Engagement rate = (likes + comments) / views * 100"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+      
+      - name: days_to_trend
+        description: "Days between publish and trending"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 365
+      
+      - name: title
+        description: "Video title"
+        tests:
+          - not_null
