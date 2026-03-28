@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    database: YOUTUBE_TRENDING_DB
+    schema: RAW
+    tables:
+      - name: youtube_trending
+        description: "Live YouTube trending videos from API"

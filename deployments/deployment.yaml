@@ -1,0 +1,13 @@
+# deployments/deployment.yaml
+name: daily-youtube-pipeline
+version: 1.0.0
+entrypoint: prefect_flow.py:youtube_pipeline
+parameters: {}
+schedule:
+  cron: "0 9 * * *"
+  timezone: UTC
+work_pool:
+  name: default
+  job_variables:
+    env:
+      PYTHONPATH: "/Users/nicolasmir/youtube_analytics"
