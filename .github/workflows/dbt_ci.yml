@@ -26,6 +26,9 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
+          # Create .dbt directory if it doesn't exist
+          mkdir -p ~/.dbt
+          
           cat > ~/.dbt/profiles.yml << 'EOF'
           youtube_analytics_dbt:
             target: ci
@@ -44,5 +47,6 @@ jobs:
           
           cd youtube_analytics_dbt
           dbt deps
-          dbt run        # ← Build models first
-          dbt test       # ← Then test them
+          dbt run
+          dbt test
+
