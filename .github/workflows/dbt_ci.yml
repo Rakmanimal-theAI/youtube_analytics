@@ -1,4 +1,4 @@
-name: dbt CI/CD
+name: dbt CI
 
 on:
   push:
@@ -7,49 +7,42 @@ on:
     branches: [main]
 
 jobs:
-  test-dbt:
+  test:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       
       - name: Install dbt
         run: pip install dbt-snowflake
       
-      - name: Set up dbt profile
+      - name: Run dbt
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          mkdir -p ~/.dbt
           cat > ~/.dbt/profiles.yml << 'EOF'
           youtube_analytics_dbt:
             target: ci
             outputs:
               ci:
                 type: snowflake
-                account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-                user: ${{ secrets.SNOWFLAKE_USER }}
-                password: ${{ secrets.SNOWFLAKE_PASSWORD }}
-                role: SYSADMIN
-                warehouse: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-                database: ${{ secrets.SNOWFLAKE_DATABASE }}
+                account: $SNOWFLAKE_ACCOUNT
+                user: $SNOWFLAKE_USER
+                password: $SNOWFLAKE_PASSWORD
+                role: ACCOUNTADMIN
+                warehouse: COMPUTE_WH
+                database: YOUTUBE_TRENDING_DB
                 schema: CI_TEST
                 threads: 4
           EOF
-      
-      - name: Run dbt tests
-        run: |
+          
           cd youtube_analytics_dbt
           dbt deps
-          dbt test
-      
-      - name: Upload test failures
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dbt-test-failures
-          path: youtube_analytics_dbt/target/
+          dbt run        # ← Build models first
+          dbt test       # ← Then test them
