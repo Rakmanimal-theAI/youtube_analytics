@@ -17,13 +17,21 @@
 
 ## 📊 Dashboard Preview
 
-| Overview | Category Performance |
-|----------|---------------------|
-| ![Dashboard Overview](screenshots/dashboard_overview.png) | ![Category Performance](screenshots/category_performance.png) |
+| Daily Pipeline | Videos Trending |
+|----------------|-----------------|
+| ![Daily Pipeline](screenshots/daily_pipeline.png) | ![Videos Trending](screenshots/videos_trending.png) |
 
-| Engagement Analysis | dbt Lineage |
-|---------------------|-------------|
-| ![Engagement Analysis](screenshots/engagement_analysis.png) | ![dbt Lineage](screenshots/dbt_lineage.png) |
+| Engagement Analysis | Video by Performance Tier |
+|---------------------|---------------------------|
+| ![Engagement Analysis](screenshots/engagement_analysis.png) | ![Video by Performance Tier](screenshots/video_by_performance_tier.png) |
+
+| dbt Lineage | GitHub Actions |
+|-------------|----------------|
+| ![dbt Lineage](screenshots/dbt_lineage.png) | ![GitHub Actions](screenshots/github_actions.png) |
+
+| Prefect Orchestration |
+|-----------------------|
+| ![Prefect](screenshots/prefect.png) |
 
 ---
 
@@ -39,7 +47,6 @@
 | **Orchestration** | Prefect Cloud | Scheduled daily runs, monitoring, failure alerts |
 | **Visualization** | Streamlit | Interactive dashboard with Plotly charts |
 | **CI/CD** | GitHub Actions | Automated testing on every push |
-| **Infrastructure** | Terraform (optional) | Infrastructure as Code for Snowflake resources |
 
 ---
 
@@ -61,10 +68,10 @@
 - **Cloud monitoring** dashboard with run history
 
 ### 📊 Interactive Dashboard
-- **Top channels by trending count**
-- **Average views by category** (bar chart)
-- **Performance tier distribution** (Bronze/Silver/Gold)
-- **Key metrics** (total videos, avg views, avg likes)
+- **Videos trending over time** (daily pipeline view)
+- **Engagement analysis** by performance tier
+- **Video distribution** by performance tier (Bronze/Silver/Gold)
+- **dbt lineage visualization** for data governance
 
 ### 💰 Cost Optimization
 - **Snowflake auto-suspend** (5 minutes inactivity)
